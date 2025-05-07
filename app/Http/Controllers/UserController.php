@@ -10,6 +10,7 @@ use App\Http\Requests\User\UpdateUserRequest;
 use App\Models\WearhouseLocations;
 use Str;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
@@ -34,14 +35,28 @@ class UserController extends Controller
     public function store(StoreUserRequest $request)
     {
         // dd($request->all());
-        $user = User::create([
-            'name'  => $request->name,
-            'uuid' => Str::uuid(),
-            'username'  =>  $request->email,
-            'email'  =>  $request->email,
-            'password'  => Hash::make($request->password),
-            'wearhouse_id' => $request->wearhouselocations,
-        ]);
+        if (Auth::user()->role == 'superAdmin') {
+            // dd($request->all());
+            $user = User::create([
+                'name'  => $request->name,
+                'uuid' => Str::uuid(),
+                'username'  =>  $request->email,
+                'email'  =>  $request->email,
+                'role' => $request->role,
+                'password'  => Hash::make($request->password),
+                'wearhouse_id' => $request->wearhouselocations,
+            ]);
+        }
+        else{
+            $user = User::create([
+                'name'  => $request->name,
+                'uuid' => Str::uuid(),
+                'username'  =>  $request->email,
+                'email'  =>  $request->email,
+                'password'  => Hash::make($request->password),
+                'wearhouse_id' => $request->wearhouselocations,
+            ]);
+        }
 
 
         /**

@@ -98,7 +98,7 @@
 
                                             <div class="mb-3">
                                                 <label for="wearhouselocations" class="form-label">
-                                                    {{ __('Email address') }}
+                                                    {{ __('Wearhouse Location') }}
                                                     <span class="text-danger">*</span>
                                                 </label>
                                                 <select name="wearhouselocations" id="wearhouselocations"  class="form-control">
@@ -114,6 +114,25 @@
                                                     </div>
                                                 @enderror
                                             </div>
+
+                                            @if (Auth::user()->role == 'superAdmin')
+                                                <div class="mb-3">
+                                                    <label for="role" class="form-label">
+                                                        {{ __('User Type') }}
+                                                        <span class="text-danger">*</span>
+                                                    </label>
+                                                    <select name="role" id="role" class="form-control @error('role') is-invalid @enderror">
+                                                        <option value="" disabled selected>Select User Type</option>
+                                                        <option value="user" {{ old('role') == 'user' ? 'selected' : '' }}>User</option>
+                                                        <option value="admin" {{ old('role') == 'admin' ? 'selected' : '' }}>Admin</option>
+                                                    </select>
+                                                    @error('role')
+                                                        <div class="invalid-feedback">
+                                                            {{ $message }}
+                                                        </div>
+                                                    @enderror
+                                                </div>
+                                            @endif
 
                                             {{-- -
                                         <div class="mb-3">
